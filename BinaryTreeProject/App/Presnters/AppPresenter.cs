@@ -75,6 +75,7 @@ namespace BinaryTreeProject.App.Presnters
             this.view.ResultClick +=
                 (o, e) =>
                 {
+                    //  try/catch
                     model = new AppModel(view.InputFile, view.OutputFile, view.TreeType, view.Agreement);
 
 

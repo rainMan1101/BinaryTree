@@ -4,17 +4,7 @@ using System.Collections.Generic;
 
 namespace BinaryTreeProject.Core.Utils
 {
-    /*
-     * TODO:
-     * 
-     * Rewrite constructor
-     * Make it :
-     *      FileProvider(string inputFilePath, string outputFilePath, string outputFilePathDekode)
-     * 
-     */
-
-
-    class FileProvider
+    public class FileProvider
     {
         private Dictionary<char, double> probabilites_map = null;
         
@@ -31,23 +21,6 @@ namespace BinaryTreeProject.Core.Utils
         private string outputFilePath;
 
 
-        // Set values 
-        private string[,] lastColumn = null;
-
-        private Dictionary<char, String> binary_codes = null;
-
-        public Dictionary<char, String> Binary_codes { set { binary_codes = value; } }
-
-        public string[,] LastColumn { set { lastColumn = value; } }
-
-
-        // Getters
-        public double[] Probabilities { get { return sortedProbabilities; } }
-
-        public char[] Values { get { return sortedValues; } }
-
-
-
         public FileProvider(string inputFilePath, string outputFilePath)
         {
             this.inputFilePath = inputFilePath;
@@ -55,29 +28,44 @@ namespace BinaryTreeProject.Core.Utils
 
             sortedValues = CustomCSVParser.GetCharArray(inputFilePath);
             sortedProbabilities = CustomCSVParser.GetProbabilityArray(inputFilePath);
-            //Array.Sort(sortedProbabilities, sortedValues, new CustomComparer());
 
+            // Exception при разной рамерности колонок символов и вероятностей из считанного CSV файла
+            if (sortedValues.Length != sortedProbabilities.Length)
+                throw new Exception(@"Ошибка считывания CSV-файла. Количество символов 
+                    не совпадает с количеством вероятностей.");
 
-            /* TODO: Rewrite this crap */
+            // Dictionary необходим для того, чтобы подтвердить, что символы не повторяются
+            // ArgumentException - при повторении ключей.
             probabilites_map = new Dictionary<char, double>();
             for (int i = 0; i < sortedValues.Length; i++)
                 probabilites_map.Add(sortedValues[i], sortedProbabilities[i]);
-
-            //Array.Sort(probabilites_map.Values.ToArray(), probabilites_map.Keys.ToArray(), new CustomComparer());
         }
 
 
-        public void PrintCodes()
+        public void PrintCodes(Dictionary<char, string> binaryCodes, string[,] lastColumn, int countRows, int countColumns)
         {
-            if (binary_codes != null)
+            //!!! Обрабатывать в модели или выдавать пользователю?
+            if (binaryCodes == null)
+                throw new Exception();
+
+            if (lastColumn == null)
+                throw new Exception();
+            //!!!
+
+            //!!!
+            if (binaryCodes.Count == countRows)
             {
                 PrettyOutputFile prettyOutput = new PrettyOutputFile(outputFilePath);
-                //prettyOutput.PrintResults(sortedValues, probabilites_map, binary_codes, stepsIndexes);
-                //prettyOutput.PrintResults(probabilites_map, binary_codes, stepsIndexes);
-                prettyOutput.PrintResults(sortedValues, sortedProbabilities, binary_codes, lastColumn);
+                prettyOutput.PrintResults(sortedValues, sortedProbabilities, binaryCodes, lastColumn);
             }
+            else //!!!
+                throw new Exception();
         }
 
-
+        public void PrintDetailsDecoding(List<KeyValuePair<string, char>> list, string outputFile)
+        {
+            PrettyOutputFile prettyOutput = new PrettyOutputFile(outputFile);
+            prettyOutput.PrintDetailsDecoding(list);
+        }
     }
 }

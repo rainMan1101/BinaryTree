@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BinaryTreeProject.Core.Utils;
 
 
 namespace BinaryTreeProject.Core.Trees
@@ -14,15 +15,49 @@ namespace BinaryTreeProject.Core.Trees
         // Корневой узел дерева
         protected Node rootNode;
 
-        // Коллекции, используемые методами в процессе работы
-        protected double[] probabilities;                     // Массив вероятностей
+        // Коллекции, используемые методами класса Tree в процессе работы.
+        // Каждому 1 элементу values соответствует 1 элемент probabilities и наоборот.
+        // Эти массивы являются отсортированными в порядке убывания значений probabilities
+        // и не доступны для изменения (доступ только через объект типа ReadOnlyArray) 
+        // в дочерних классах.        
+        private double[] probabilities;                     // Массив вероятностей
 
-        protected char[] values;                              // Массив символов      
+        private char[] values;                              // Массив символов      
+
+
+        #region Read only Probabilities and Values arrays
+
+        protected class ReadOnlyArray<T>
+        {
+            private T[] _array = null;
+
+            public ReadOnlyArray(ReadOnlyArray<T> rOArray) { }
+
+            public ReadOnlyArray(T[] array) {
+                _array = array;
+            }
+
+            public int Length { get { return _array.Length; } }
+
+            public T this[int index]
+            {
+                get { return _array[index]; }
+            }
+        }
+
+        protected ReadOnlyArray<double> Probabilities;
+
+        protected ReadOnlyArray<char> Values;
+
+        #endregion
+
 
         // For default
         protected bool agreement = false;
 
         public bool Agreement { get { return agreement; } set { agreement = value; } }
+
+
 
         public void SetTree(Tree tree)
         {
@@ -44,6 +79,10 @@ namespace BinaryTreeProject.Core.Trees
                 //    Probability = tree.rootNode.Probability
                 //};
                 this.rootNode = tree.rootNode;
+
+                // Init read only arrays
+                Probabilities = new ReadOnlyArray<double>(probabilities);
+                Values = new ReadOnlyArray<char>(values);
             }
         }
 
@@ -58,7 +97,11 @@ namespace BinaryTreeProject.Core.Trees
             // Сортирую массив вероятностей (probabilities), в порядке их убывания.
             // Так же элементы массива символов (values) изменяют свое положение,
             // на соответствующее положение вероятностей, сопоставимым им по индексам.
-            Array.Sort(probabilities, values, new Utils.CustomComparer());
+            Array.Sort(probabilities, values, new CustomComparer());
+
+            // Init read only arrays
+            Probabilities = new ReadOnlyArray<double>(probabilities);
+            Values = new ReadOnlyArray<char>(values);
         }
 
         public Tree(Tree tree)

@@ -21,20 +21,18 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
             rootNode = BuildTree();
         }
 
-
-
-
+        
         private Node BuildTree()
         {
             // Создание конечных узлов дерева
             List<Node> nodes = new List<Node>();
-            for (int i = 0; i < values.Length; i++)
+            for (int i = 0; i < Values.Length; i++)
                 nodes.Add(new Node()
                 {
                     LeftChildNode = null,
                     RightChildNode = null,
-                    Value = values[i],
-                    Probability = probabilities[i]
+                    Value = Values[i],
+                    Probability = Probabilities[i]
                 });
 
 
@@ -81,8 +79,7 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
 
             return pointer;
         }
-
-
+        
 
         private void StroreProbabilities(Node[] nodes)
         {

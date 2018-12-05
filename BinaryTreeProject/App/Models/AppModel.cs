@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using System.Linq;
+using System.Collections.Generic;
 using BinaryTreeProject.App.Enums;
 using BinaryTreeProject.Core.Translation;
 using BinaryTreeProject.Core.Trees.BinaryTrees;
@@ -113,11 +113,9 @@ namespace BinaryTreeProject.App.Models
 
         public void PrintResult()
         {
-            fp.Binary_codes = binTree.GetBinaryCodes();
-            //fp.StepsIndexes = tree.GetSpliterSteps(); //!!!
             Converter converter = new Converter(binTree);
-            fp.LastColumn = converter.LastColumnContent;
-            fp.PrintCodes();
+            fp.PrintCodes(binTree.GetBinaryCodes(), converter.LastColumnContent, 
+                converter.CountRows,converter.CountColumns);
         }
 
 
@@ -128,22 +126,17 @@ namespace BinaryTreeProject.App.Models
 
         public string Decode(string binaryString, string outputDecodeFile)
         {
-            return Decoder.Decode(binaryString, binTree.GetBinaryCodes(), outputDecodeFile);
+            List<KeyValuePair<string, char>> decodeDetails = 
+                Decoder.Decode(binaryString, binTree.GetBinaryCodes());
+
+            fp.PrintDetailsDecoding(decodeDetails, outputDecodeFile);
+            
+            return Decoder.DecodeString;
         }
 
         public double GetValueInfo()
         {
-            //tree.
-            double valueInfo = 0;
-
-            //fp.ProbabilitesMap 
-            string[] binary_arr = binTree.GetBinaryCodes().Values.ToArray();
-            char[] char_arr = binTree.GetBinaryCodes().Keys.ToArray();
-
-            for (int i = 0; i < binary_arr.Length; i++)
-                valueInfo += binary_arr[i].Length * fp.ProbabilitesMap[char_arr[i]];
-
-            return valueInfo;
+            return binTree.GetValueInfo();
         }
     }
 }

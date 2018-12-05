@@ -30,13 +30,15 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
         public override void Build()
         {
             spliterSteps = new List<int>();
-            end = values.Length - 1;
+            end = Values.Length - 1;
 
             rootNode = BuildTree(begin, end, FULL_PROBABILITY / 2);
         }
 
         public int[] GetSpliterSteps()
         {
+            // Передаю оригиал, так как этот массив не используется в самом дереве,
+            // и не грозит нарушить его целостность.
             return spliterSteps.ToArray();
         }
 
@@ -49,8 +51,8 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
                     {
                         LeftChildNode = null,
                         RightChildNode = null,
-                        Value = values[begin],
-                        Probability = probabilities[begin]
+                        Value = Values[begin],
+                        Probability = Probabilities[begin]
                     };
             else
             {
@@ -58,11 +60,11 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
                 double totalP = 0;
                 int spliter = begin;
 
-                if (avrProb >= probabilities[begin])
+                if (avrProb >= Probabilities[begin])
                 {
-                    for (int i = begin; (avrProb >= totalP + probabilities[i]) && (i < end); i++)
+                    for (int i = begin; (avrProb >= totalP + Probabilities[i]) && (i < end); i++)
                     {
-                        totalP += probabilities[i];
+                        totalP += Probabilities[i];
                         spliter++;
                     }
 

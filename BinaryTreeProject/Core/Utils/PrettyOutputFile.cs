@@ -19,31 +19,6 @@ namespace BinaryTreeProject.Core.Utils
             _outputPath = outputPath;
         }
 
-
-        //private string[,] GenerateSteps(int[] stepsIndexes, int alphabetLength)
-        //{
-        //    string[,] steps = new string[alphabetLength, stepsIndexes.Length];
-        //    string stringTemplate = " ", stringTemplateStep = "_";
-
-        //    for (int i = 1; i < defaultStepLength; i++)
-        //    {
-        //        stringTemplate += stringTemplate[0];
-        //        stringTemplateStep += stringTemplateStep[0];
-        //    }
-
-
-        //    // столбцы
-        //    for (int i = 0; i < stepsIndexes.Length; i++)
-        //    {
-        //        for (int j = 0; j < alphabetLength; j++)
-        //            steps[j, i] = stringTemplate;
-        //        steps[stepsIndexes[i], i] = stringTemplateStep;
-        //    }
-
-        //    return steps;
-        //}
-
-
         public string PrintHeader(StreamWriter sw, int maxBCLength, int countColunns)
         {
 
@@ -153,6 +128,32 @@ namespace BinaryTreeProject.Core.Utils
             }
         }
 
+        public void PrintDetailsDecoding(List<KeyValuePair<string, char>> list)
+        {
+            using (StreamWriter sw = new StreamWriter(_outputPath, false, Encoding.Default))
+            {
+                int max = list.Max(element => element.Key.Length);
+                int count = list.Count;
 
+                //Max char count 0xFFFF = 65 535
+                int maxAlphabet = 10000;
+                // Количество цифр в числе
+                int countNum = 5;
+
+                while (count % maxAlphabet == count && countNum > 1)
+                {
+                    maxAlphabet /= 10;
+                    countNum--;
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    string str = String.Format("  {0," + countNum + "} ", i) + " | ";
+                    str += String.Format("  {0," + (-max) + "} ", list[i].Key) + " | ";
+                    str += list[i].Value;
+                    sw.WriteLine(str);
+                }
+            }
+        }
     }
 }

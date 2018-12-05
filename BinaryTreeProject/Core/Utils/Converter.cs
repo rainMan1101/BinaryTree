@@ -12,6 +12,15 @@ namespace BinaryTreeProject.Core.Utils
 
         private string[,] lastColumnContent = null;
 
+        private int countRows;
+
+        private int countColumns;
+        
+
+        public int CountRows { get { return countRows; } }
+
+        public int CountColumns { get { return countColumns; } }
+
         public string[,] LastColumnContent { get { return lastColumnContent; } }
 
 
@@ -34,10 +43,12 @@ namespace BinaryTreeProject.Core.Utils
         private string[,] GetLastColumn(List<double[]> listSumsProbabilities)
         {
             string[,] stringArr = null;
+            countRows = 0;
+            countColumns = listSumsProbabilities.Count;
 
             if (listSumsProbabilities.Count != 0)
             {
-                int alphaBetCount = listSumsProbabilities[0].Length;
+                int alphaBetCount = countRows = listSumsProbabilities[0].Length;
                 stringArr = new string[alphaBetCount, listSumsProbabilities.Count];
 
 
@@ -60,6 +71,9 @@ namespace BinaryTreeProject.Core.Utils
 
         private string[,] GetLastColumn(int[] stepsIndexes, int alphabetLength)
         {
+            countRows = alphabetLength;
+            countColumns = stepsIndexes.Length; //TODO: rewrite
+
             string[,] steps = new string[alphabetLength, stepsIndexes.Length];
             string stringTemplate = " ", stringTemplateStep = "_";
 
