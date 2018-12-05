@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BinaryTreeProject.App.Enums;
 
 
 namespace BinaryTreeProject.Core.Utils
@@ -42,7 +43,7 @@ namespace BinaryTreeProject.Core.Utils
         }
 
 
-        public void PrintCodes(Dictionary<char, string> binaryCodes, string[,] lastColumn, int countRows, int countColumns)
+        public void PrintCodes(Dictionary<char, string> binaryCodes, string[,] lastColumn, int countRows, int countColumns, ETreeType treeType)
         {
             //!!! Обрабатывать в модели или выдавать пользователю?
             if (binaryCodes == null)
@@ -56,7 +57,7 @@ namespace BinaryTreeProject.Core.Utils
             if (binaryCodes.Count == countRows)
             {
                 PrettyOutputFile prettyOutput = new PrettyOutputFile(outputFilePath);
-                prettyOutput.PrintResults(sortedValues, sortedProbabilities, binaryCodes, lastColumn);
+                prettyOutput.PrintResults(sortedValues, sortedProbabilities, binaryCodes, lastColumn, treeType);
             }
             else //!!!
                 throw new Exception();

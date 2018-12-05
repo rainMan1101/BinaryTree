@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BinaryTreeProject.App.Enums;
 
 
 namespace BinaryTreeProject.Core.Utils
 {
-    class PrettyOutputFile
+    public class PrettyOutputFile
     {
         private string _outputPath;
 
@@ -19,20 +20,22 @@ namespace BinaryTreeProject.Core.Utils
             _outputPath = outputPath;
         }
 
-        public string PrintHeader(StreamWriter sw, int maxBCLength, int countColunns)
+        public string PrintHeader(StreamWriter sw, int maxBinaryLength, 
+            int countColunns, int symbolLengthColumn, string label, int separator)
         {
+            const int additionalSpacesBinaryCount = 3;
+            maxBinaryLength += additionalSpacesBinaryCount;
 
             string thirdColumn = " Код символа ";
             // Добавочная строка к коду символа
             string addition_string = "";
 
-            // "Код символа" - добавляем или в шапку или в таблицу
-            if (thirdColumn.Length < maxBCLength + 3)
-                while (maxBCLength + 3 != thirdColumn.Length)
-                    thirdColumn += " ";
-            else if (thirdColumn.Length > maxBCLength + 3)
-                while (maxBCLength + 3 + addition_string.Length != thirdColumn.Length)
-                    addition_string += " ";
+            if (thirdColumn.Length < maxBinaryLength)
+                while (maxBinaryLength != thirdColumn.Length) thirdColumn += " ";
+
+            if (thirdColumn.Length > maxBinaryLength)
+                while (maxBinaryLength != thirdColumn.Length) addition_string += " ";
+
 
             // Подчет длинны первых трех столбцов
             // Первая строка первых 3х столбцов
@@ -52,27 +55,32 @@ namespace BinaryTreeProject.Core.Utils
 
             // Первая стока оставштхся столбцов
             string steps_string_spaces = "";
-            int xcoord = countColunns * 3 / 2 - "Ступени деления".Length / 2;
-            for (int i = 0; i < countColunns * 3 / 2; i++)
+
+            int xcoord = countColunns * symbolLengthColumn / 2 - label.Length / 2;
+            for (int i = 0; i < xcoord; i++)
                 steps_string_spaces += " ";
-            steps_string_spaces += "Ступени деления";
-            for (int i = 0, length = steps_string_spaces.Length; i < countColunns * 3 - length; i++)
+            steps_string_spaces += label;
+            for (int i = 0, length = steps_string_spaces.Length; i < countColunns * symbolLengthColumn - length; i++)
                 steps_string_spaces += " ";
 
             // Оставшившиeся столбцов
             int countThreeFirst = firsColumnLength + secondColumnLength + thirdColumnLength;
             string steps_string = "";
 
-            if (countColunns <= 99)
+
+            
+            for(int i = 1; i <= countColunns; i++)
             {
-                for (int i = 1; i <= countColunns; i++)
-                {
-                    if (i >= 1 && i <= 9)
-                        steps_string += " " + Convert.ToString(i) + " ";
-                    else
-                        steps_string += Convert.ToString(i) + " ";
-                }
+                int countSpaces = symbolLengthColumn - ("" + i).Length - separator;
+                string str1 = "";
+                string str2 = "";
+
+                for (int j = 0; j < countSpaces; j++) str1 += " ";
+                for (int j = 0; j < separator; j++) str2 += " ";
+
+                steps_string += str1 + Convert.ToString(i) + str2;
             }
+
 
             steps_string += "|";
             steps_string_spaces += "|";
@@ -88,8 +96,8 @@ namespace BinaryTreeProject.Core.Utils
             return addition_string;
         }
 
-        //public void PrintResults(char[] chars, Dictionary<char, double> probabilities, Dictionary<char, string> codes, int[] stepsIndexes)
-        public void PrintResults(char[] chars, double[] probabilities, Dictionary<char, string> codes, string[,] steps)
+
+        public void PrintResults(char[] chars, double[] probabilities, Dictionary<char, string> codes, string[,] steps, ETreeType treeType)
         {
 
             using (StreamWriter sw = new StreamWriter(_outputPath, false, Encoding.Default))
@@ -99,21 +107,28 @@ namespace BinaryTreeProject.Core.Utils
 
                 if (chars?.Count() != 0)
                 {
-                    int maxLength = codes.Values.ToArray().Max(str => str.Length);
+                    int maxBinaryLength = codes.Values.ToArray().Max(str => str.Length);
                     int countAlfabet = probabilities.Length;
                     int countColunns = steps.Length / countAlfabet;
-                    //string[,] steps = GenerateSteps(stepsIndexes, chars.Length);
                     string string1, string2, string3;
 
-                    string addition_string = PrintHeader(sw, maxLength, countColunns);
 
-                    maxLength = - maxLength;
+                    string addition_string;
+
+                    if (treeType == ETreeType.ShannonTree)
+                        addition_string = PrintHeader(sw, maxBinaryLength, countColunns, steps[0, 0].Length, "Ступени деления", 0);
+                    else
+                        addition_string = PrintHeader(sw, maxBinaryLength, countColunns, steps[0, 0].Length, "Суммы вероятностей", 2);
+
+                    maxBinaryLength = -maxBinaryLength;
+
+
 
                     for (int i = 0; i < chars.Length; i++)
                     {
                         string1 = String.Format("    {0}    ", chars[i]);
                         string2 = String.Format(" {0:0.00000000}  ", probabilities[i]);
-                        string3 = String.Format("  {0," + maxLength + "} " + addition_string, codes[chars[i]]);
+                        string3 = String.Format("  {0," + maxBinaryLength + "} " + addition_string, codes[chars[i]]);
 
                         string first_three = String.Format("|{0}|{1}|{2}|", string1, string2, string3);
                         string other_string = "";
@@ -128,23 +143,17 @@ namespace BinaryTreeProject.Core.Utils
             }
         }
 
+
+
         public void PrintDetailsDecoding(List<KeyValuePair<string, char>> list)
         {
             using (StreamWriter sw = new StreamWriter(_outputPath, false, Encoding.Default))
             {
                 int max = list.Max(element => element.Key.Length);
                 int count = list.Count;
-
-                //Max char count 0xFFFF = 65 535
-                int maxAlphabet = 10000;
                 // Количество цифр в числе
-                int countNum = 5;
+                int countNum = (""+ count).Length;
 
-                while (count % maxAlphabet == count && countNum > 1)
-                {
-                    maxAlphabet /= 10;
-                    countNum--;
-                }
 
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -155,5 +164,7 @@ namespace BinaryTreeProject.Core.Utils
                 }
             }
         }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BinaryTreeProject.Core.Trees.BinaryTrees;
 
 
@@ -8,7 +9,7 @@ namespace BinaryTreeProject.Core.Utils
     public class Converter
     {
 
-        private const int defaultStepLength = 3;
+        //private const int defaultStepLength = 3;
 
         private string[,] lastColumnContent = null;
 
@@ -69,12 +70,13 @@ namespace BinaryTreeProject.Core.Utils
 
 
 
-        private string[,] GetLastColumn(int[] stepsIndexes, int alphabetLength)
+        private string[,] GetLastColumn(List<KeyValuePair<int, int>> list, int alphabetLength)
         {
             countRows = alphabetLength;
-            countColumns = stepsIndexes.Length; //TODO: rewrite
+            countColumns = list.GroupBy(elements => elements.Key).OrderBy(elements => elements.Key).ToArray().Count();
 
-            string[,] steps = new string[alphabetLength, stepsIndexes.Length];
+            const int defaultStepLength = 3;
+            string[,] steps = new string[countRows, countColumns];
             string stringTemplate = " ", stringTemplateStep = "_";
 
             for (int i = 1; i < defaultStepLength; i++)
@@ -84,15 +86,49 @@ namespace BinaryTreeProject.Core.Utils
             }
 
 
-            // столбцы
-            for (int i = 0; i < stepsIndexes.Length; i++)
-            {
-                for (int j = 0; j < alphabetLength; j++)
+            for (int i = 0; i < countColumns; i++)
+                for (int j = 0; j < countRows; j++)
                     steps[j, i] = stringTemplate;
-                steps[stepsIndexes[i], i] = stringTemplateStep;
+
+
+            for (int i = 1; i <= countColumns; i++)
+            {
+                KeyValuePair<int, int>[] arr = 
+                    list.Where(elements => elements.Key == i).ToArray();
+
+                int count = arr.Count();
+
+                for (int j = 0; j < count; j++)
+                    steps[arr[j].Value, i - 1] = stringTemplateStep;
             }
 
             return steps;
         }
+
+
+
+            //countRows = alphabetLength;
+            //countColumns = stepsIndexes.Length; //TODO: rewrite
+
+            //string[,] steps = new string[alphabetLength, stepsIndexes.Length];
+            //string stringTemplate = " ", stringTemplateStep = "_";
+
+            //for (int i = 1; i < defaultStepLength; i++)
+            //{
+            //    stringTemplate += stringTemplate[0];
+            //    stringTemplateStep += stringTemplateStep[0];
+            //}
+
+
+            //// столбцы
+            //for (int i = 0; i < countColumns; i++)
+            //{
+            //    for (int j = 0; j < alphabetLength; j++)
+            //        steps[j, i] = stringTemplate;
+            //    steps[stepsIndexes[i], i] = stringTemplateStep;
+            //}
+
+            //return steps;
+        
     }
 }

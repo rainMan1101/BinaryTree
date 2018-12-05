@@ -113,9 +113,13 @@ namespace BinaryTreeProject.App.Models
 
         public void PrintResult()
         {
+            ETreeType treeType;
+            if (binTree is ShannonTree) treeType = ETreeType.ShannonTree;
+            else treeType = ETreeType.HaffmanTree;
+
             Converter converter = new Converter(binTree);
             fp.PrintCodes(binTree.GetBinaryCodes(), converter.LastColumnContent, 
-                converter.CountRows,converter.CountColumns);
+                converter.CountRows,converter.CountColumns, treeType);
         }
 
 

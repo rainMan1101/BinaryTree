@@ -11,7 +11,7 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
         private int end;
 
         // Коллекции для вывода 
-        private List<int> spliterSteps;                  // Ступени деления
+        //private List<int> spliterSteps;                  // Ступени деления
         /*
          * TODO: Ступени строятся неверно.
          *      Сейчас: по одному разделителю на каждый шаг.
@@ -19,7 +19,7 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
          *      
          *      Структура: List<KeyValuePair<int, int>>
          */
-
+        private List<KeyValuePair<int, int>> spliterSteps;
 
         // Конструкторы
         public ShannonTree(Dictionary<char, double> probabilitiesDict) : base(probabilitiesDict) { }
@@ -29,21 +29,21 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
         // Построение кодового дерева
         public override void Build()
         {
-            spliterSteps = new List<int>();
+            spliterSteps = new List<KeyValuePair<int, int>>();
             end = Values.Length - 1;
 
-            rootNode = BuildTree(begin, end, FULL_PROBABILITY / 2);
+            rootNode = BuildTree(begin, end, FULL_PROBABILITY / 2, 1); // Начало с  1 !!!
         }
 
-        public int[] GetSpliterSteps()
+        public List<KeyValuePair<int, int>> GetSpliterSteps()
         {
             // Передаю оригиал, так как этот массив не используется в самом дереве,
             // и не грозит нарушить его целостность.
-            return spliterSteps.ToArray();
+            return spliterSteps;
         }
 
         // Рекурсивный алгоритм построения дерева
-        private Node BuildTree(int begin, int end, double avrProb)
+        private Node BuildTree(int begin, int end, double avrProb, int stepNumber)
         {
             if (begin == end)
                 return
@@ -72,13 +72,15 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
                 }
 
                 // ступени деления
-                spliterSteps.Add(spliter);
+                //spliterSteps.Add(spliter);
+                spliterSteps.Add(new KeyValuePair<int, int>(stepNumber, spliter));
+                stepNumber++;
 
                 return
                     new Node()
                     {
-                        LeftChildNode = BuildTree(begin, spliter, totalP / 2),
-                        RightChildNode = BuildTree(spliter + 1, end, (avrProb * 2 - totalP) / 2),
+                        LeftChildNode = BuildTree(begin, spliter, totalP / 2, stepNumber),
+                        RightChildNode = BuildTree(spliter + 1, end, (avrProb * 2 - totalP) / 2, stepNumber),
                         Value = default(char),
                         Probability = avrProb * 2
                     };
