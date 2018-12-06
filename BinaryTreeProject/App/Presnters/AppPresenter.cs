@@ -76,7 +76,8 @@ namespace BinaryTreeProject.App.Presnters
                 (o, e) =>
                 {
                     //  try/catch
-                    model = new AppModel(view.InputFile, view.OutputFile, view.TreeType, view.Agreement);
+                    model = new AppModel(view.InputFile, view.OutputFile, view.TreeType, view.Agreement,
+                        view.OutputDecodeFile, view.OutputMode);
 
 
                     // GRAPHICS EVENTS
@@ -113,6 +114,9 @@ namespace BinaryTreeProject.App.Presnters
                             model.ReplaceAgreement(view.Agreement);
                             this.view.DrawWindow.Invalidate();
                         };
+
+                    this.view.OutputModeChanged +=
+                        (obj, ex) => model.RepleceOutputMode(view.OutputMode);
 
                     model.PrintResult();
                     this.view.ValueInfo = model.GetValueInfo().ToString();

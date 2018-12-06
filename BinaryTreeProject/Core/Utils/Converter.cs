@@ -104,31 +104,6 @@ namespace BinaryTreeProject.Core.Utils
 
             return steps;
         }
-
-
-
-            //countRows = alphabetLength;
-            //countColumns = stepsIndexes.Length; //TODO: rewrite
-
-            //string[,] steps = new string[alphabetLength, stepsIndexes.Length];
-            //string stringTemplate = " ", stringTemplateStep = "_";
-
-            //for (int i = 1; i < defaultStepLength; i++)
-            //{
-            //    stringTemplate += stringTemplate[0];
-            //    stringTemplateStep += stringTemplateStep[0];
-            //}
-
-
-            //// столбцы
-            //for (int i = 0; i < countColumns; i++)
-            //{
-            //    for (int j = 0; j < alphabetLength; j++)
-            //        steps[j, i] = stringTemplate;
-            //    steps[stepsIndexes[i], i] = stringTemplateStep;
-            //}
-
-            //return steps;
         
     }
 }

@@ -11,6 +11,10 @@ namespace BinaryTreeProject.App.Views
         {
             InitializeComponent();
 
+            // Init elements
+            pictureBox = pictureBox1;
+
+
             radioButton1.CheckedChanged += InvokeTreeTypeChange;
             radioButton2.CheckedChanged += InvokeTreeTypeChange;
 
@@ -30,9 +34,20 @@ namespace BinaryTreeProject.App.Views
             // Изменение соглашения
             radioButton9.CheckedChanged += InvokeAgreementChanged;
             radioButton10.CheckedChanged += InvokeAgreementChanged;
+
+            // Изенение режима вывода
+            radioButton11.CheckedChanged += OutputModeCanged;
+            radioButton12.CheckedChanged += OutputModeCanged;
         }
 
 
+
+        //private EWindowMode windowMode;
+
+        private PictureBox pictureBox;
+
+
+        
         /*                       Extended PART                    */
 
         public EDrawNodeMode DrawNodeMode
@@ -74,7 +89,7 @@ namespace BinaryTreeProject.App.Views
 
         public string ValueInfo { set { textBox6.Text = value; } }
 
-        public PictureBox DrawWindow { get { return pictureBox1; } }
+        public PictureBox DrawWindow { get { return pictureBox; } }
 
         public ETreeType TreeType
         {
@@ -83,6 +98,18 @@ namespace BinaryTreeProject.App.Views
             }
         }
 
+
+        public EOutputMode OutputMode
+        {
+            get
+            {
+                if (radioButton11.Checked) return EOutputMode.TXTMode;
+                else return EOutputMode.CSVMode;
+            }
+        }
+
+        //public EWindowMode WindowMode { get { return windowMode; } }
+
         public bool Agreement { get { return radioButton9.Checked; } }
 
         public event EventHandler ResultClick;
@@ -90,6 +117,9 @@ namespace BinaryTreeProject.App.Views
         public event EventHandler TreeTypeChange;
 
         public event EventHandler AgreementChanged;
+
+        public event EventHandler OutputModeChanged;
+
 
 
         /*                   Encode /Decode                       */
@@ -109,6 +139,7 @@ namespace BinaryTreeProject.App.Views
         private void button1_Click(object sender, EventArgs e)
         {
             ResultClick?.Invoke(sender, e);
+            button4.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -156,6 +187,30 @@ namespace BinaryTreeProject.App.Views
         private void InvokeAgreementChanged(object sender, EventArgs e)
         {
             AgreementChanged?.Invoke(sender, e);
+        }
+
+        private void OutputModeCanged(object sender, EventArgs e)
+        {
+            OutputModeChanged?.Invoke(sender, e);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            FullScreenForm fullScreenForm = new FullScreenForm();
+            fullScreenForm.FormClosed += FullScreenFormClosed;
+
+            fullScreenForm.DrawWindow.Width = 2000;
+            fullScreenForm.DrawWindow.Height = 1000;
+            pictureBox = fullScreenForm.DrawWindow;
+            fullScreenForm.Show();
+
+            // For Redraw window
+            ResultClick?.Invoke(sender, e);
+        }
+
+        private void FullScreenFormClosed(object sender, EventArgs e)
+        {
+            pictureBox = pictureBox1;
         }
     }
 }

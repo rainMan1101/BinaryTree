@@ -10,6 +10,7 @@ namespace BinaryTreeProject.App.Models
         void DrawTree(Graphics graph, int heigth, int width, EDrawNodeMode drawNodeMode, EDrawTreeMode drawTreeMode);
         void ReplaceTree(ETreeType treeType);
         void ReplaceAgreement(bool agreement);
+        void RepleceOutputMode(EOutputMode outputMode);
 
         void PrintResult();
         double GetValueInfo();

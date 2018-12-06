@@ -26,11 +26,17 @@ namespace BinaryTreeProject.App.Views
 
         bool Agreement { get; }
 
+        EOutputMode OutputMode { get; }
+
+
         event EventHandler TreeTypeChange;
 
         event EventHandler ResultClick;
 
         event EventHandler AgreementChanged;
+
+        event EventHandler OutputModeChanged;
+
 
         // Drawing
         PictureBox DrawWindow { get; }

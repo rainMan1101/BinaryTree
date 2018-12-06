@@ -48,6 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,13 +62,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App\Enums\EOutputMode.cs" />
+    <Compile Include="App\Enums\EWindoMode.cs" />
     <Compile Include="App\Models\AppModel.cs" />
     <Compile Include="App\Enums\ETreeType.cs" />
     <Compile Include="App\Presnters\AppPresenter.cs" />
     <Compile Include="App\Enums\EDrawNodeMode.cs" />
     <Compile Include="App\Enums\EDrawSymbolMode.cs" />
+    <Compile Include="App\Views\FullScreenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\Views\FullScreenForm.Designer.cs">
+      <DependentUpon>FullScreenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="App\Views\IAppViewExtended.cs" />
     <Compile Include="App\Views\IAppView.cs" />
+    <Compile Include="Core\Utils\CSVWritter.cs" />
     <Compile Include="Core\Utils\FileProvider.cs" />
     <Compile Include="Core\Trees\BinaryTrees\BinaryTree.cs" />
     <Compile Include="Core\Trees\BinaryTrees\HaffmanTree.cs" />
@@ -86,8 +96,8 @@
     <Compile Include="Core\Utils\CustomCSVParser.cs" />
     <Compile Include="Core\Utils\CustomComparer.cs" />
     <Compile Include="Core\Utils\CustomNodeComparer.cs" />
-    <Compile Include="Core\Utils\IPrettyOutput.cs" />
-    <Compile Include="Core\Utils\PrettyOutputFile.cs" />
+    <Compile Include="Core\Utils\IWritter.cs" />
+    <Compile Include="Core\Utils\TXTWritter.cs" />
     <Compile Include="App\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +108,9 @@
     <Compile Include="App\Program.cs" />
     <Compile Include="Core\Trees\VisualTrees\VisualTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="App\Views\FullScreenForm.resx">
+      <DependentUpon>FullScreenForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="App\Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -24,14 +24,16 @@ namespace BinaryTreeProject.App.Models
         EDrawTreeMode drawTreeMode;
 
 
-        public AppModel(string inputFile, string outputFile, ETreeType treeType, bool agreement)
+        public AppModel(string inputFile, string outputFile, ETreeType treeType, bool agreement, 
+            string outputDecode, EOutputMode outPutMode)
         {
-            fp = new FileProvider(inputFile, outputFile);
+            fp = new FileProvider(inputFile, outputFile, outputDecode, outPutMode);
 
             if (treeType == ETreeType.ShannonTree)
                 binTree = new ShannonTree(fp.ProbabilitesMap);
             else
                 binTree = new HaffmanTree(fp.ProbabilitesMap);
+
 
             binTree.Agreement = agreement;
             binTree.Build();
@@ -66,6 +68,10 @@ namespace BinaryTreeProject.App.Models
             visualTree.SetTree(binTree);
         }
 
+        public void RepleceOutputMode(EOutputMode outputMode)
+        {
+            fp.RepleceOutputMode(outputMode);
+        }
 
         public void DrawTree(Graphics graph, int heigth, int width, EDrawNodeMode drawNodeMode, EDrawTreeMode drawTreeMode)
         {
@@ -133,7 +139,7 @@ namespace BinaryTreeProject.App.Models
             List<KeyValuePair<string, char>> decodeDetails = 
                 Decoder.Decode(binaryString, binTree.GetBinaryCodes());
 
-            fp.PrintDetailsDecoding(decodeDetails, outputDecodeFile);
+            fp.PrintDetailsDecoding(decodeDetails);
             
             return Decoder.DecodeString;
         }

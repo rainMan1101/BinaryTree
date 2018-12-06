@@ -21,14 +21,26 @@ namespace BinaryTreeProject.Core.Utils
 
         private string outputFilePath;
 
+        private string outputDecode;
 
-        public FileProvider(string inputFilePath, string outputFilePath)
+        IWritter writer;
+
+
+
+        public FileProvider(string inputFilePath, string outputFilePath, string outputDecode, EOutputMode outPutMode)
         {
             this.inputFilePath = inputFilePath;
             this.outputFilePath = outputFilePath;
 
-            sortedValues = CustomCSVParser.GetCharArray(inputFilePath);
-            sortedProbabilities = CustomCSVParser.GetProbabilityArray(inputFilePath);
+            //sortedValues = CustomCSVParser.GetCharArray(inputFilePath);
+            //sortedProbabilities = CustomCSVParser.GetProbabilityArray(inputFilePath);
+
+            this.outputDecode = outputDecode;
+            RepleceOutputMode(outPutMode);
+
+            CustomCSVParser paser = new CustomCSVParser(inputFilePath);
+            sortedValues = paser.Values;
+            sortedProbabilities = paser.Probabilities;
 
             // Exception при разной рамерности колонок символов и вероятностей из считанного CSV файла
             if (sortedValues.Length != sortedProbabilities.Length)
@@ -56,17 +68,28 @@ namespace BinaryTreeProject.Core.Utils
             //!!!
             if (binaryCodes.Count == countRows)
             {
-                PrettyOutputFile prettyOutput = new PrettyOutputFile(outputFilePath);
-                prettyOutput.PrintResults(sortedValues, sortedProbabilities, binaryCodes, lastColumn, treeType);
+                //IWritter writer = new TXTWritter(outputFilePath);
+                //IWritter writer = new CSVWritter(outputFilePath);
+                writer.PrintResults(sortedValues, sortedProbabilities, binaryCodes, lastColumn, treeType);
             }
             else //!!!
                 throw new Exception();
         }
 
-        public void PrintDetailsDecoding(List<KeyValuePair<string, char>> list, string outputFile)
+        public void PrintDetailsDecoding(List<KeyValuePair<string, char>> list)
         {
-            PrettyOutputFile prettyOutput = new PrettyOutputFile(outputFile);
-            prettyOutput.PrintDetailsDecoding(list);
+            //IWritter writer = new TXTWritter(outputFile);
+            //IWritter writer = new CSVWritter(outputFile);
+            writer.PrintDetailsDecoding(list);
+        }
+
+
+        public void RepleceOutputMode(EOutputMode outPutMode)
+        {
+            if (outPutMode == EOutputMode.TXTMode)
+                writer = new TXTWritter(outputFilePath, outputDecode);
+            else
+                writer = new CSVWritter(outputFilePath, outputDecode);
         }
     }
 }

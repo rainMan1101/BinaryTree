@@ -8,19 +8,19 @@ using BinaryTreeProject.App.Enums;
 
 namespace BinaryTreeProject.Core.Utils
 {
-    public class PrettyOutputFile
+    public class TXTWritter : IWritter
     {
-        private string _outputPath;
+        private string outputPath;
 
-        private const int defaultStepLength = 3;
+        private string outputDecodePath;
 
-
-        public PrettyOutputFile(string outputPath)
+        public TXTWritter(string outputPath, string outputDecode)
         {
-            _outputPath = outputPath;
+            this.outputPath = outputPath;
+            this.outputDecodePath = outputDecode;
         }
 
-        public string PrintHeader(StreamWriter sw, int maxBinaryLength, 
+        private string PrintHeader(StreamWriter sw, int maxBinaryLength, 
             int countColunns, int symbolLengthColumn, string label, int separator)
         {
             const int additionalSpacesBinaryCount = 3;
@@ -100,7 +100,7 @@ namespace BinaryTreeProject.Core.Utils
         public void PrintResults(char[] chars, double[] probabilities, Dictionary<char, string> codes, string[,] steps, ETreeType treeType)
         {
 
-            using (StreamWriter sw = new StreamWriter(_outputPath, false, Encoding.Default))
+            using (StreamWriter sw = new StreamWriter(outputPath, false, Encoding.Default))
             {
                 //!!!
                 Array.Sort(probabilities, chars, new CustomComparer());
@@ -147,7 +147,7 @@ namespace BinaryTreeProject.Core.Utils
 
         public void PrintDetailsDecoding(List<KeyValuePair<string, char>> list)
         {
-            using (StreamWriter sw = new StreamWriter(_outputPath, false, Encoding.Default))
+            using (StreamWriter sw = new StreamWriter(outputDecodePath, false, Encoding.Default))
             {
                 int max = list.Max(element => element.Key.Length);
                 int count = list.Count;
@@ -155,10 +155,46 @@ namespace BinaryTreeProject.Core.Utils
                 int countNum = (""+ count).Length;
 
 
+                #region PRINT HEADER
+
+                string firstColumn = "Шаг";
+                string secondColumn = "Комбинация";
+                string thitdColumn = "Символ";
+
+                string additionalStringFirst = "";
+                string additionalStringSecond = "";
+
+                if (countNum + 3 > firstColumn.Length)
+                    while (countNum + 3 != firstColumn.Length) firstColumn += " ";
+
+                if (countNum + 3 < firstColumn.Length)
+                    while (countNum + 3 + additionalStringFirst.Length != firstColumn.Length)
+                        additionalStringFirst += " ";
+
+                if (max + 3 > secondColumn.Length)
+                    while (max + 3 != secondColumn.Length) secondColumn += " ";
+
+                if (max + 3 < secondColumn.Length)
+                    while (max + 3 + additionalStringSecond.Length != secondColumn.Length)
+                        additionalStringSecond += " ";
+
+                string newString = String.Format("{0}|{1}|{2}", firstColumn, secondColumn, thitdColumn);
+                sw.WriteLine(newString);
+
+                string line = "";
+                for (int i = 0; i < newString.Length; i++)
+                    line += "-";
+
+                sw.WriteLine(line);
+
+                #endregion PRINT HEADER
+
+
+
                 for (int i = 0; i < list.Count; i++)
                 {
-                    string str = String.Format("  {0," + countNum + "} ", i) + " | ";
-                    str += String.Format("  {0," + (-max) + "} ", list[i].Key) + " | ";
+                    string str = String.Format("  {0," + countNum + "} "+ additionalStringFirst, i) + "|";
+                    str += String.Format("  {0," + (-max) + "} " + additionalStringSecond, list[i].Key) + "|";
                     str += list[i].Value;
                     sw.WriteLine(str);
                 }
