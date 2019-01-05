@@ -100,7 +100,7 @@ namespace BinaryTreeProject.App.Models
 
                         // !!!! REWRITE !!!
                         case EDrawNodeMode.RectangleMode:
-                            visualTree = new TreeWithNodes(binTree, new CircleNode(), drawTreeMode);
+                            visualTree = new TreeWithNodes(binTree, new SquareNode(), drawTreeMode);
                             break;
 
                         case EDrawNodeMode.NotNodeMode:

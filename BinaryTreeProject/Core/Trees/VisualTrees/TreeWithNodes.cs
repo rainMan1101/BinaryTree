@@ -131,12 +131,13 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
         #endregion
         
 
-        // Рисует узел
-        private void DrawNode(float x, float y)
-        {
-            float offset = visualNode.FigureSize / 2;
-            graph.DrawEllipse(defaultPen, x - offset, y - offset, visualNode.FigureSize, visualNode.FigureSize);
-        }
+        //// Рисует узел
+        //private void DrawNode(float x, float y)
+        //{
+        //    float offset = visualNode.FigureSize / 2;
+        //    //graph.DrawEllipse(defaultPen, x - offset, y - offset, visualNode.FigureSize, visualNode.FigureSize);
+        //    visualNode.DrawNode()
+        //}
 
 
         //  Переопределяю виртуальный метод, для того, чтобы линии выводились не от центра к центру, 
@@ -165,7 +166,7 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
             char binSymbol, double nProb, double nLeftProb, double nRightProb)
         {
             //  Вывод промежуточного узла дерева
-            DrawNode(x, y);
+            visualNode.DrawNode(graph, x, y, defaultPen);
             //  Вывод линий, соединяющих два узла
             DrawLines(x, y, xLeft, xRight);
 
@@ -204,7 +205,7 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
         protected override void DrawInTheEnd(float x, float y, char binSymbol, char nSymbol, double probability)
         {
             //  Вывод конечного узла дерева
-            DrawNode(x, y);
+            visualNode.DrawNode(graph, x, y, defaultPen);
 
             switch (mode)
             {

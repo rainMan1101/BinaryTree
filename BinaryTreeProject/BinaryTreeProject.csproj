@@ -86,6 +86,7 @@
     <Compile Include="Core\Trees\VisualNodes\CircleNode.cs" />
     <Compile Include="Core\Additions\AdjustmentFontSize.cs" />
     <Compile Include="App\Enums\EDrawTreeMode.cs" />
+    <Compile Include="Core\Trees\VisualNodes\SquareNode.cs" />
     <Compile Include="Core\Trees\VisualTrees\IVisualTree.cs" />
     <Compile Include="Core\Trees\Node.cs" />
     <Compile Include="Core\Translation\Decoder.cs" />

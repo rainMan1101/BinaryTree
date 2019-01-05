@@ -18,7 +18,7 @@ namespace BinaryTreeProject.Core.Trees.VisualNodes
 
  
         public float FigureSize { get { return circleSize; }  set { circleSize = value; } }
-        public float StepHeigth { get { return stepHeigth; } set { stepHeigth = value; } }
+        public float StepHeigth { set { stepHeigth = value; } }
 
 
         //  Вывод круга по заданным координатам
