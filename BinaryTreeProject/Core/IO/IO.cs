@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using BinaryTreeProject.App.Enums;
+using BinaryTreeProject.Core.IO.Input;
+using BinaryTreeProject.Core.IO.Output;
+using BinaryTreeProject.Core.Utils;
 
 
-namespace BinaryTreeProject.Core.Utils
+namespace BinaryTreeProject.Core.IO
 {
     /*                              Класс, реализующий ввод-вывод приложения                            */
 
@@ -29,12 +32,15 @@ namespace BinaryTreeProject.Core.Utils
 
 
         //  Экземпляр писателя
-        private IWritter writer;
+        private IWriter writer;
 
+
+        //  Экземпляр считывателя
+        private IReader reader;
 
 
         public IO(string inputFilePath, string outputFilePath, string outputDecodeFilePath, 
-            EOutputMode outPutMode, char CSVseparator)
+            EOutputMode outPutMode, char CSVseparator, bool TextFile)
         {
             this.inputFilePath = inputFilePath;
             this.outputFilePath = outputFilePath;
@@ -42,8 +48,12 @@ namespace BinaryTreeProject.Core.Utils
 
             SetOutputMode(outPutMode);
 
-            CustomCSVParser paser = new CustomCSVParser(inputFilePath, CSVseparator);
-            probabilityDictionary = paser.ProbabilityDictionary;
+            if (TextFile)
+                reader = new TextAnalyzer(inputFilePath);
+            else
+                reader = new CustomCSVParser(inputFilePath, CSVseparator);
+
+            probabilityDictionary = reader.ProbabilityDictionary;
         }
 
 
@@ -71,9 +81,9 @@ namespace BinaryTreeProject.Core.Utils
         private void SetOutputMode(EOutputMode outPutMode)
         {
             if (outPutMode == EOutputMode.TXTMode)
-                writer = new TXTWritter(outputFilePath, outputDecodeFilePath);
+                writer = new TXTWriter(outputFilePath, outputDecodeFilePath);
             else
-                writer = new CSVWritter(outputFilePath, outputDecodeFilePath);
+                writer = new CSVWriter(outputFilePath, outputDecodeFilePath);
         }
     }
 }

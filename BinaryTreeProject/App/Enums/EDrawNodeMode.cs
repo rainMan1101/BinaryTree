@@ -11,7 +11,7 @@
 
 
         //  В виде квадратов 
-        RectangleMode,
+        SquareMode,
 
 
         //  Не отображать узлы

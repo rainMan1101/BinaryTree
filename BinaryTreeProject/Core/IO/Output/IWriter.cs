@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BinaryTreeProject.App.Enums;
 
-namespace BinaryTreeProject.Core.Utils
+namespace BinaryTreeProject.Core.IO.Output
 {
     /*          Интерфейс, описывающий требуемый функционал ПИСАТЕЛЯ
      *   ПИСАТЕЛЬ может выводить передаваеммые ему данные в необходимом формате
@@ -12,7 +12,7 @@ namespace BinaryTreeProject.Core.Utils
      *   предметной области). Передаваемые ПИСАТЕЛЮ данные регламентированны 
      *   как параметры методов.
      */
-    public interface IWritter
+    public interface IWriter
     {
 
         //  Вывод результатов

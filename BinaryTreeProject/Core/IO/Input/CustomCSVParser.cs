@@ -4,11 +4,11 @@ using System.IO;
 using System;
 
 
-namespace BinaryTreeProject.Core.Utils
+namespace BinaryTreeProject.Core.IO.Input
 {
     /*                                          Парсер CSV-файла                                        */
 
-    public class CustomCSVParser
+    public class CustomCSVParser : IReader
     {
         
         //  Список символов и их вероятностей, полученный из файла

@@ -4,14 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BinaryTreeProject.App.Enums;
+using BinaryTreeProject.Core.Utils;
 
 
-namespace BinaryTreeProject.Core.Utils
+
+namespace BinaryTreeProject.Core.IO.Output
 {
     /*      Класс, оссуществляющий вывод результатов работы программы в виде псевдографики в текстовый файл       */
 
-    public class TXTWritter : IWritter
+    public class TXTWriter : IWriter
     {
+
         //  Строка, содержащая путь к файлу с результатами работы программы 
         private string outputPath;
 
@@ -20,7 +23,7 @@ namespace BinaryTreeProject.Core.Utils
         private string outputDecodePath;
 
 
-        public TXTWritter(string outputPath, string outputDecode)
+        public TXTWriter(string outputPath, string outputDecode)
         {
             this.outputPath = outputPath;
             this.outputDecodePath = outputDecode;
@@ -109,7 +112,7 @@ namespace BinaryTreeProject.Core.Utils
         public void PrintResults(Dictionary<char, double> probabilityDictionary, Dictionary<char, string> codesDictionary, 
             string[,] lastTableColumn, ETreeType treeType)
         {
-
+            
             using (StreamWriter sw = new StreamWriter(outputPath, false, Encoding.Default))
             {
                 char[] chars = probabilityDictionary.Keys.ToArray();
@@ -119,6 +122,7 @@ namespace BinaryTreeProject.Core.Utils
 
                 if (probabilityDictionary?.Count() != 0)
                 {
+
                     //  Максимальный размер кодового слова из всех имеющихся
                     int maxBinaryLength = codesDictionary.Values.ToArray().Max(str => str.Length);
                     //  Определение количества колонок в последней графе таблицы

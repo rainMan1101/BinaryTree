@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using BinaryTreeProject.App.Enums;
+using BinaryTreeProject.Core.Utils;
 
 
-namespace BinaryTreeProject.Core.Utils
+namespace BinaryTreeProject.Core.IO.Output
 {
     /*                  Класс, оссуществляющий вывод результатов работы программы в формате CSV                 */
 
-    public class CSVWritter : IWritter
+    public class CSVWriter : IWriter
     {
         //  Строка, содержащая путь к файлу с результатами работы программы 
         private string outputPath;
@@ -20,7 +21,7 @@ namespace BinaryTreeProject.Core.Utils
         private string outputDecodePath;
 
 
-        public CSVWritter(string outputPath, string outputDecodePath)
+        public CSVWriter(string outputPath, string outputDecodePath)
         {
             this.outputPath = outputPath;
             this.outputDecodePath = outputDecodePath;

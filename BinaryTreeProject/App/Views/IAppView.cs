@@ -18,7 +18,7 @@ namespace BinaryTreeProject.App.Views
     public interface IAppView
     {
 
-        /*                      Основные поля                  */
+        /*                              Основные поля                           */
 
 
         //  Входной файл (содержащий символы и вероятности)        
@@ -36,6 +36,10 @@ namespace BinaryTreeProject.App.Views
 
         //  Область для рисования дерева
         PictureBox DrawWindow { get; }
+
+
+        //  Тип входного файла
+        bool IsTextFile { get; }
 
 
         //  Получение результата

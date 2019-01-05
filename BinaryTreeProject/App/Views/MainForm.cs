@@ -50,7 +50,7 @@ namespace BinaryTreeProject.App.Views
             radioButton12.CheckedChanged += OutputModeCanged;
 
             //  По-умолчанию файлы в папке с EXE шником
-            textBox1.Text = Environment.CurrentDirectory + "\\input.csv";
+            textBox1.Text = Environment.CurrentDirectory + "\\text.txt";
             textBox2.Text = Environment.CurrentDirectory + "\\output.csv";
             textBox5.Text = Environment.CurrentDirectory + "\\output_decoder.csv";
         }
@@ -66,7 +66,7 @@ namespace BinaryTreeProject.App.Views
                 if (radioButton3.Checked)
                     return EDrawNodeMode.CircleMode;
                 else if (radioButton4.Checked)
-                    return EDrawNodeMode.RectangleMode;
+                    return EDrawNodeMode.SquareMode;
                 else
                     return EDrawNodeMode.NotNodeMode;
             }
@@ -107,6 +107,8 @@ namespace BinaryTreeProject.App.Views
         public string ValueInfo { set { textBox6.Text = value; } }
 
         public PictureBox DrawWindow { get { return pictureBox; } }
+
+        public bool IsTextFile { get { return (radioButton14.Checked) ? true : false; } }
 
         public event EventHandler ResultClick;
 
@@ -259,26 +261,6 @@ namespace BinaryTreeProject.App.Views
             pictureBox = fullScreenForm.DrawWindow;
             fullScreenForm.Show();
 
-
-            //fullScreenForm.DrawWindow.Width = 2000;
-            //fullScreenForm.DrawWindow.Height = 1000;
-
-
-            // For Redraw window
-            //ResultClick?.Invoke(sender, e);
-            //FullScreenModeClick?.Invoke(sender, e);
-
-
-            //FullScreenForm fullScreenForm = new FullScreenForm();
-            //fullScreenForm.FormClosed += FullScreenFormClosed;
-
-            //// Make in visual tree
-            //// TODO: Сдеть получение оптимального размера 
-            //fullScreenForm.DrawWindow.Width = 2000;
-            //fullScreenForm.DrawWindow.Height = 1000;
-            //pictureBox = fullScreenForm.DrawWindow;
-            //fullScreenForm.Show();
-
             // For Redraw window
             ResultClick?.Invoke(sender, e);
             FullScreenModeClick?.Invoke(sender, e);
@@ -301,6 +283,20 @@ namespace BinaryTreeProject.App.Views
             }
             else
                 textBox7.Enabled = true;
+        }
+
+
+        //  Текстовый файл
+        private void radioButton14_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = Environment.CurrentDirectory + "\\text.txt";
+        }
+
+
+        //  CSV файл
+        private void radioButton13_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox1.Text = Environment.CurrentDirectory + "\\input.csv";
         }
         #endregion
     }

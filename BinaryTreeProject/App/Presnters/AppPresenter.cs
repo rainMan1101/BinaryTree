@@ -89,7 +89,7 @@ namespace BinaryTreeProject.App.Presnters
                         {
                             //  При нажатии кнопки "Получить результат" создается экземпляр модели
                             model = new AppModel(view.InputFile, view.OutputFile, view.TreeType, view.Agreement,
-                            view.OutputDecodeFile, view.OutputMode, view.CSVSeparator);
+                            view.OutputDecodeFile, view.OutputMode, view.CSVSeparator, view.IsTextFile);
 
 
 

@@ -79,7 +79,9 @@
     <Compile Include="Core\Additions\FontInfo.cs" />
     <Compile Include="Core\Additions\Offset.cs" />
     <Compile Include="Core\Additions\OffsetOneSide.cs" />
-    <Compile Include="Core\IO\Output\CSVWritter.cs" />
+    <Compile Include="Core\IO\Input\IReader.cs" />
+    <Compile Include="Core\IO\Input\TextAnalyzer.cs" />
+    <Compile Include="Core\IO\Output\CSVWriter.cs" />
     <Compile Include="Core\IO\IO.cs" />
     <Compile Include="Core\Trees\BinaryTrees\BinaryTree.cs" />
     <Compile Include="Core\Trees\BinaryTrees\HaffmanTree.cs" />
@@ -99,8 +101,8 @@
     <Compile Include="Core\IO\Input\CustomCSVParser.cs" />
     <Compile Include="Core\Utils\CustomComparer.cs" />
     <Compile Include="Core\Utils\CustomNodeComparer.cs" />
-    <Compile Include="Core\IO\Output\IWritter.cs" />
-    <Compile Include="Core\IO\Output\TXTWritter.cs" />
+    <Compile Include="Core\IO\Output\IWriter.cs" />
+    <Compile Include="Core\IO\Output\TXTWriter.cs" />
     <Compile Include="App\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

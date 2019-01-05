@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Collections.Generic;
 using BinaryTreeProject.App.Enums;
+using BinaryTreeProject.Core.IO;
 using BinaryTreeProject.Core.Translation;
 using BinaryTreeProject.Core.Trees.BinaryTrees;
 using BinaryTreeProject.Core.Trees.VisualNodes;
@@ -37,9 +38,9 @@ namespace BinaryTreeProject.App.Models
 
 
         public AppModel(string inputFile, string outputFile, ETreeType treeType, bool agreement, 
-            string outputDecode, EOutputMode outputMode, char CSVseparator)
+            string outputDecode, EOutputMode outputMode, char CSVseparator, bool IsTextFile)
         {
-            io = new IO(inputFile, outputFile, outputDecode, outputMode, CSVseparator);
+            io = new IO(inputFile, outputFile, outputDecode, outputMode, CSVseparator, IsTextFile);
 
             if (treeType == ETreeType.ShannonTree)
                 binTree = new ShannonTree(io.ProbabilityDictionary);
@@ -98,8 +99,7 @@ namespace BinaryTreeProject.App.Models
                             visualTree = new TreeWithNodes(binTree, new CircleNode(), drawTreeMode);
                             break;
 
-                        // !!!! REWRITE !!!
-                        case EDrawNodeMode.RectangleMode:
+                        case EDrawNodeMode.SquareMode:
                             visualTree = new TreeWithNodes(binTree, new SquareNode(), drawTreeMode);
                             break;
 
