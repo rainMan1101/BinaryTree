@@ -7,18 +7,28 @@ namespace BinaryTreeProject.App.Views
 {
     public partial class MainForm : Form, IAppViewExtended
     {
+
+        //  Область для рисования дерева
+        private PictureBox pictureBox;
+
+
+        //  Разделитель значений в CSV-файле по-умолчанию
+        private const char defaultSeparator = ';';
+
+
         public MainForm()
         {
             InitializeComponent();
 
-            // Init elements
+            //  Область для рисования дерева = области из текущего окна
             pictureBox = pictureBox1;
 
 
+            /*          Изменение алгоритма кодирования         */
             radioButton1.CheckedChanged += InvokeTreeTypeChange;
             radioButton2.CheckedChanged += InvokeTreeTypeChange;
 
-            // Событие изименения режима
+            /*            Событие изименения режима             */
             radioButton3.CheckedChanged += InvokeModeChanged;
             radioButton4.CheckedChanged += InvokeModeChanged;
             radioButton5.CheckedChanged += InvokeModeChanged;
@@ -31,24 +41,23 @@ namespace BinaryTreeProject.App.Views
             checkBox1.CheckedChanged += InvokeModeChanged;
             checkBox2.CheckedChanged += CheckBox2Changed;
 
-            // Изменение соглашения
+            /*                  Изменение соглашения             */
             radioButton9.CheckedChanged += InvokeAgreementChanged;
             radioButton10.CheckedChanged += InvokeAgreementChanged;
 
-            // Изенение режима вывода
+            /*              Изменение формата вывода             */
             radioButton11.CheckedChanged += OutputModeCanged;
             radioButton12.CheckedChanged += OutputModeCanged;
+
+            //  По-умолчанию файлы в папке с EXE шником
+            textBox1.Text = Environment.CurrentDirectory + "\\input.csv";
+            textBox2.Text = Environment.CurrentDirectory + "\\output.csv";
+            textBox5.Text = Environment.CurrentDirectory + "\\output_decoder.csv";
         }
 
 
-
-        //private EWindowMode windowMode;
-
-        private PictureBox pictureBox;
-
-
         
-        /*                       Extended PART                    */
+        /*                       EXTENDED PART                    */
 
         public EDrawNodeMode DrawNodeMode
         {
@@ -68,9 +77,12 @@ namespace BinaryTreeProject.App.Views
         {
             get
             {
-                if (radioButton6.Checked) return EDrawSymbolMode.DrawSymbolsUnderNodes;
-                else if (radioButton7.Checked) return EDrawSymbolMode.DrawSymbolsInNodes;
-                else return EDrawSymbolMode.NotDrawSymbols;
+                if (radioButton6.Checked)
+                    return EDrawSymbolMode.DrawSymbolsUnderNodes;
+                else if (radioButton7.Checked)
+                    return EDrawSymbolMode.DrawSymbolsInNodes;
+                else
+                    return EDrawSymbolMode.NotDrawSymbols;
             }
         }
 
@@ -82,7 +94,12 @@ namespace BinaryTreeProject.App.Views
 
 
 
+
         /*                       BASE PART                       */
+
+
+        /*                      Основные поля                  */
+
         public string InputFile { get { return textBox1.Text; } }
 
         public string OutputFile { get { return textBox2.Text; } }
@@ -91,9 +108,30 @@ namespace BinaryTreeProject.App.Views
 
         public PictureBox DrawWindow { get { return pictureBox; } }
 
+        public event EventHandler ResultClick;
+
+
+        /*                         Параметры                     */
+
+        public char CSVSeparator {
+            get {
+                string str = textBox7.Text;
+
+                if (str.Length != 1)
+                {
+                    textBox7.Text = "" + defaultSeparator;
+                    MessageBox.Show("Разделителем может быть один символ!");
+                    return defaultSeparator;
+                }
+                else
+                    return str[0];
+            }
+        }
+
         public ETreeType TreeType
         {
-            get {
+            get
+            {
                 return (radioButton1.Checked) ? ETreeType.ShannonTree : ETreeType.HaffmanTree;
             }
         }
@@ -103,16 +141,13 @@ namespace BinaryTreeProject.App.Views
         {
             get
             {
-                if (radioButton11.Checked) return EOutputMode.TXTMode;
-                else return EOutputMode.CSVMode;
+                return (radioButton11.Checked) ? EOutputMode.TXTMode : EOutputMode.CSVMode;
             }
         }
 
-        //public EWindowMode WindowMode { get { return windowMode; } }
 
         public bool Agreement { get { return radioButton9.Checked; } }
 
-        public event EventHandler ResultClick;
 
         public event EventHandler TreeTypeChange;
 
@@ -122,7 +157,9 @@ namespace BinaryTreeProject.App.Views
 
 
 
-        /*                   Encode /Decode                       */
+
+        /*               Кодирование / Декодирование                 */
+
         public string OutputDecodeFile { get { return textBox5.Text; } }
 
         public string OriginalString { get { return textBox3.Text; } set { textBox3.Text = value; } }
@@ -135,7 +172,9 @@ namespace BinaryTreeProject.App.Views
 
 
 
+        #region Проброс событий 
         /*                   Проброс событий                       */
+
         private void button1_Click(object sender, EventArgs e)
         {
             ResultClick?.Invoke(sender, e);
@@ -154,9 +193,16 @@ namespace BinaryTreeProject.App.Views
 
         private void RadioButton7Changed(object sender, EventArgs e)
         {
-            // -= ModeChanged и += ModeChanged, для того, чтобы событие не вызывалась.
-            // Так как radioButton7 итак вызовет ModeChanged, событие от checkBox2
-            // фиксировать не нужно.
+            /*  
+             *  Если нажат radioButton7 (отображать символы в конечных узлах), 
+             *  то checkBox2.Checked(отображать двоичный код) должно быть 
+             *  установленно в false, т.к. эти два режима не совместимы.
+             *  
+             *  Чтобы событие ModeChanged при установке checkBox2.Checked = false,
+             *  не вызывалось второй раз, т.к. первый раз оно вызовется при 
+             *  изменении radioButton7 используются -= и +=.
+             *  
+             */
 
             if (((RadioButton)sender).Checked)
             {
@@ -194,11 +240,20 @@ namespace BinaryTreeProject.App.Views
             OutputModeChanged?.Invoke(sender, e);
         }
 
+        #endregion
+
+
+        #region События в интерфейсе
+        /*               События в интерфейсе                */
+
+        //  Открытие окна увеличения дерева
         private void button4_Click(object sender, EventArgs e)
         {
             FullScreenForm fullScreenForm = new FullScreenForm();
             fullScreenForm.FormClosed += FullScreenFormClosed;
 
+            // Make in visual tree
+            // TODO: Сдеть получение оптимального размера 
             fullScreenForm.DrawWindow.Width = 2000;
             fullScreenForm.DrawWindow.Height = 1000;
             pictureBox = fullScreenForm.DrawWindow;
@@ -208,9 +263,24 @@ namespace BinaryTreeProject.App.Views
             ResultClick?.Invoke(sender, e);
         }
 
+
+        // Закрытие окна увеличения дерева   
         private void FullScreenFormClosed(object sender, EventArgs e)
         {
             pictureBox = pictureBox1;
         }
+
+
+        // Использование разделителя по-умолчанию
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked) {
+                textBox7.Text = "" + defaultSeparator;
+                textBox7.Enabled = false;
+            }
+            else
+                textBox7.Enabled = true;
+        }
+        #endregion
     }
 }

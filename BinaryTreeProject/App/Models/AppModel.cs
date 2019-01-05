@@ -11,28 +11,40 @@ using BinaryTreeProject.Core.Utils;
 
 namespace BinaryTreeProject.App.Models
 {
+    /*                             Модель - описывает логику приложения                                */
+
     public class AppModel : IAppModel
     {
-        private FileProvider fp;
+        
+        //  Класс, для операций ввода-вывода
+        private IO io;
 
+
+        //  Экземпляр дерева для рисования
         private VisualTree visualTree;
 
+
+        //  Экземпляр дерева для генерации кодовых комбинаций
         private BinaryTree binTree;
 
 
+        //  Режим рисования узлов
         EDrawNodeMode drawNodeMode;
+
+
+        //  Режим рисования дерева
         EDrawTreeMode drawTreeMode;
 
 
         public AppModel(string inputFile, string outputFile, ETreeType treeType, bool agreement, 
-            string outputDecode, EOutputMode outPutMode)
+            string outputDecode, EOutputMode outputMode, char CSVseparator)
         {
-            fp = new FileProvider(inputFile, outputFile, outputDecode, outPutMode);
+            io = new IO(inputFile, outputFile, outputDecode, outputMode, CSVseparator);
 
             if (treeType == ETreeType.ShannonTree)
-                binTree = new ShannonTree(fp.ProbabilitesMap);
+                binTree = new ShannonTree(io.ProbabilityDictionary);
             else
-                binTree = new HaffmanTree(fp.ProbabilitesMap);
+                binTree = new HaffmanTree(io.ProbabilityDictionary);
 
 
             binTree.Agreement = agreement;
@@ -49,13 +61,11 @@ namespace BinaryTreeProject.App.Models
 
         public void ReplaceTree(ETreeType treeType)
         {
-            // Изменяется только оболочка (BinaryTree), данные остаются те же (Tree)
             if (treeType == ETreeType.ShannonTree)
                 binTree = new ShannonTree(binTree);
             else
                 binTree = new HaffmanTree(binTree);
 
-            // строется дерево Шеннона/Хаффмана
             binTree.Build();
             visualTree.SetTree(binTree);
         }
@@ -68,10 +78,6 @@ namespace BinaryTreeProject.App.Models
             visualTree.SetTree(binTree);
         }
 
-        public void RepleceOutputMode(EOutputMode outputMode)
-        {
-            fp.RepleceOutputMode(outputMode);
-        }
 
         public void DrawTree(Graphics graph, int heigth, int width, EDrawNodeMode drawNodeMode, EDrawTreeMode drawTreeMode)
         {
@@ -85,17 +91,16 @@ namespace BinaryTreeProject.App.Models
                 // Изменился тип узла или тип узла и опции рисования
                 if (this.drawNodeMode != drawNodeMode)
                 {
-                    //visualTree = new TreeWithNodes(binTree, new CircleNode(30, 5), drawTreeMode);
 
                     switch (drawNodeMode)
                     {
                         case EDrawNodeMode.CircleMode:
-                            visualTree = new TreeWithNodes(binTree, new CircleNode(30, 5), drawTreeMode);
+                            visualTree = new TreeWithNodes(binTree, new CircleNode(), drawTreeMode);
                             break;
 
                         // !!!! REWRITE !!!
                         case EDrawNodeMode.RectangleMode:
-                            visualTree = new TreeWithNodes(binTree, new CircleNode(30, 5), drawTreeMode);
+                            visualTree = new TreeWithNodes(binTree, new CircleNode(), drawTreeMode);
                             break;
 
                         case EDrawNodeMode.NotNodeMode:
@@ -119,13 +124,9 @@ namespace BinaryTreeProject.App.Models
 
         public void PrintResult()
         {
-            ETreeType treeType;
-            if (binTree is ShannonTree) treeType = ETreeType.ShannonTree;
-            else treeType = ETreeType.HaffmanTree;
+            ETreeType treeType = (binTree is ShannonTree) ? ETreeType.ShannonTree : ETreeType.HaffmanTree;
 
-            Converter converter = new Converter(binTree);
-            fp.PrintCodes(binTree.GetBinaryCodes(), converter.LastColumnContent, 
-                converter.CountRows,converter.CountColumns, treeType);
+            io.PrintCodes(binTree.GetBinaryCodes(), new LastTableColumnCreator(binTree), treeType);
         }
 
 
@@ -139,10 +140,11 @@ namespace BinaryTreeProject.App.Models
             List<KeyValuePair<string, char>> decodeDetails = 
                 Decoder.Decode(binaryString, binTree.GetBinaryCodes());
 
-            fp.PrintDetailsDecoding(decodeDetails);
+            io.PrintDetailsDecoding(decodeDetails);
             
             return Decoder.DecodeString;
         }
+
 
         public double GetValueInfo()
         {

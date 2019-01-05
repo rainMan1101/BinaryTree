@@ -6,51 +6,97 @@ using BinaryTreeProject.App.Enums;
 namespace BinaryTreeProject.App.Views
 {
     /*
-     * Форма(View) должна реализовывать данный интерфейс.
-     * Таким образом, форму можно рассматривать как субъект,
-     * с определенным набором данных и событий, на который 
-     * может воздействовать Presenter, причем сам  View
-     * ни на кого воздействовать не может. 
+     *      Пользовательский интрефейс приложения (базовый набор свойств)
+     *      
+     *      Представление(View) (форма) должно реализовывать данный интерфейс.
+     *  Таким образом, представление можно рассматривать как субъект,
+     *  с определенным набором данных и событий, на который может воздействовать 
+     *  Presenter, причем сам  View ни на кого воздействовать не может. 
+     *  
      */
 
     public interface IAppView
     {
-        // Files operations
+
+        /*                      Основные поля                  */
+
+
+        //  Входной файл (содержащий символы и вероятности)        
         string InputFile { get; }
 
+
+        //  Выходной файл (в него записываются результаты работы программы, 
+        //  в зависимости от выбранного алгоритма)
         string OutputFile { get; }
 
+
+        //  Значение средней информации в битах
         string ValueInfo { set; }
 
-        ETreeType TreeType { get; }
 
-        bool Agreement { get; }
-
-        EOutputMode OutputMode { get; }
-
-
-        event EventHandler TreeTypeChange;
-
-        event EventHandler ResultClick;
-
-        event EventHandler AgreementChanged;
-
-        event EventHandler OutputModeChanged;
-
-
-        // Drawing
+        //  Область для рисования дерева
         PictureBox DrawWindow { get; }
 
 
-        // Encode / Decode
+        //  Получение результата
+        event EventHandler ResultClick;
+
+
+
+
+        /*                         Параметры                     */
+
+
+        //  Алгоритм для кодирования и построения дерева
+        ETreeType TreeType { get; }
+
+
+        //  Соглашение
+        bool Agreement { get; }
+
+
+        //  Разделитель для значений в CSV файле
+        char CSVSeparator { get; }
+
+
+        //  Формат вывода CSV/TXT
+        EOutputMode OutputMode { get; }
+
+
+        //  Изменение алгоритма кодирования
+        event EventHandler TreeTypeChange;
+
+        
+        //  Изменение соглашения
+        event EventHandler AgreementChanged;
+
+
+        //  Изменение формата вывода
+        event EventHandler OutputModeChanged;
+
+
+
+
+        /*                Кодирование / Декодирование          */
+
+
+        //  Файл для выводов результатов пошагового декодирования
         string OutputDecodeFile { get; }
 
+
+        //  Исходная строка, которую необходимо закодировать
         string OriginalString { get; set; }
 
+
+        //  Строка, в которую выводится закодированное слово
         string BinaryString { get; set; }
 
+
+        //  Закодировать 
         event EventHandler EncodeClick;
 
+
+        //  Декодировать
         event EventHandler DecodeClick;
     }
 }

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace BinaryTreeProject.App.Views
 {
@@ -17,6 +9,7 @@ namespace BinaryTreeProject.App.Views
             InitializeComponent();
         }
 
+        // Область для рисования 
         public PictureBox DrawWindow { get { return pictureBox1; } }
     }
 }

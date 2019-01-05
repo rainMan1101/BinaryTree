@@ -4,24 +4,50 @@ using BinaryTreeProject.Core.Utils;
 
 namespace BinaryTreeProject.Core.Trees.BinaryTrees
 {
-    class HaffmanTree : BinaryTree
+    /*               Класс, формирующий деревидную структуру по алгоритму Хаффмана              */
+
+    public class HaffmanTree : BinaryTree
     {
+        //  Частичные суммы вероятностей
         private List<double[]> sumsProbabilities = null;
 
         public List<double[]> ListSumsProbabilities { get { return sumsProbabilities; } }
 
 
+        /*                                  Конструкторы                                        */
+
         public HaffmanTree(Dictionary<char, double> probabilitiesDict) : base(probabilitiesDict) { }
 
         public HaffmanTree(Tree tree) : base(tree) { }
 
+        
         public override void Build()
         {
             sumsProbabilities = new List<double[]>();
             rootNode = BuildTree();
         }
 
-        
+
+        /*
+         *              Итеративный алгоритм построения дерева Хаффмана
+         *                            (Haffman algorithm)
+         * 
+         * 
+         *      0. Формирование списка узлов(конечных) для каждого символа.
+         *      
+         *      1. Сортировка списка узлов по убыванию вероятностей.
+         *      
+         *      2. Создание нового узла, который будет указывать на 2 дочерних -
+         *      2 последних узла из списка.
+         *      
+         *      3. Удаление последних двух элементов списка.
+         *      
+         *      4. Добавление в список узла, созданного на 2 шаге.
+         *      
+         *      5. Переход к шагу 1, пока в списке не останиется один элемент -
+         *      корневой узел дерева.
+         * 
+         */
         private Node BuildTree()
         {
             // Создание конечных узлов дерева
@@ -50,20 +76,20 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
             while (nodes.Count > 1)
             {
                 nodes.Sort(comparer);
-                // Store array
+                // Store probability array
                 StroreProbabilities(nodes.ToArray());
 
                 pointer = new Node();
-                if (agreement) //#if TRUE_VARIAN
+                if (agreement) //   Направление
                 {
                     pointer.RightChildNode = nodes[nodes.Count - 2];        // большее (1) - направо
                     pointer.LeftChildNode = nodes[nodes.Count - 1];         // меньшее (0) - налево
                 }
-                else //#else
+                else 
                 {
                     pointer.LeftChildNode = nodes[nodes.Count - 2];         // большее (1) - налево
                     pointer.RightChildNode = nodes[nodes.Count - 1];        // меньшее (0) - направо
-                } //#endif
+                } 
 
                 pointer.Probability =
                 pointer.LeftChildNode.Probability +
@@ -74,13 +100,14 @@ namespace BinaryTreeProject.Core.Trees.BinaryTrees
 
                 nodes.Add(pointer);
             }
-            // Store array
+            // Store probability array
             StroreProbabilities(nodes.ToArray());
 
             return pointer;
         }
         
 
+        //  Запоминание частичных сумм вероятностей в процессе построения дерева
         private void StroreProbabilities(Node[] nodes)
         {
             double[] sumProb = new double[nodes.Length];

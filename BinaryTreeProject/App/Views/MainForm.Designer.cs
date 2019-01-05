@@ -62,6 +62,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.button4 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.radioButton12 = new System.Windows.Forms.RadioButton();
             this.radioButton11 = new System.Windows.Forms.RadioButton();
@@ -428,6 +431,9 @@
             // 
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel3.Controls.Add(this.checkBox3);
+            this.panel3.Controls.Add(this.textBox7);
+            this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.groupBox5);
             this.panel3.Controls.Add(this.groupBox4);
             this.panel3.Controls.Add(this.label1);
@@ -446,6 +452,38 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(444, 209);
             this.panel3.TabIndex = 24;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.Font = new System.Drawing.Font("Arial", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox3.Location = new System.Drawing.Point(30, 174);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(92, 30);
+            this.checkBox3.TabIndex = 28;
+            this.checkBox3.Text = "Default Excel separator";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
+            // textBox7
+            // 
+            this.textBox7.Enabled = false;
+            this.textBox7.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox7.Location = new System.Drawing.Point(10, 180);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(17, 23);
+            this.textBox7.TabIndex = 27;
+            this.textBox7.Text = ";";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(5, 160);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(106, 13);
+            this.label7.TabIndex = 26;
+            this.label7.Text = "Разделитель (CSV):";
             // 
             // groupBox5
             // 
@@ -486,9 +524,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.radioButton10);
             this.groupBox4.Controls.Add(this.radioButton9);
-            this.groupBox4.Location = new System.Drawing.Point(20, 167);
+            this.groupBox4.Location = new System.Drawing.Point(126, 167);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(413, 39);
+            this.groupBox4.Size = new System.Drawing.Size(307, 39);
             this.groupBox4.TabIndex = 24;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Соглашение";
@@ -498,7 +536,7 @@
             this.radioButton10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton10.AutoSize = true;
             this.radioButton10.Checked = true;
-            this.radioButton10.Location = new System.Drawing.Point(334, 15);
+            this.radioButton10.Location = new System.Drawing.Point(228, 15);
             this.radioButton10.Name = "radioButton10";
             this.radioButton10.Size = new System.Drawing.Size(62, 17);
             this.radioButton10.TabIndex = 1;
@@ -510,7 +548,7 @@
             // 
             this.radioButton9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.radioButton9.AutoSize = true;
-            this.radioButton9.Location = new System.Drawing.Point(104, 15);
+            this.radioButton9.Location = new System.Drawing.Point(10, 15);
             this.radioButton9.Name = "radioButton9";
             this.radioButton9.Size = new System.Drawing.Size(219, 17);
             this.radioButton9.TabIndex = 0;
@@ -606,6 +644,9 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.RadioButton radioButton12;
         private System.Windows.Forms.RadioButton radioButton11;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
 

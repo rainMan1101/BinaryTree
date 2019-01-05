@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\Enums\EOutputMode.cs" />
-    <Compile Include="App\Enums\EWindoMode.cs" />
     <Compile Include="App\Models\AppModel.cs" />
     <Compile Include="App\Enums\ETreeType.cs" />
     <Compile Include="App\Presnters\AppPresenter.cs" />
@@ -77,13 +76,16 @@
     </Compile>
     <Compile Include="App\Views\IAppViewExtended.cs" />
     <Compile Include="App\Views\IAppView.cs" />
-    <Compile Include="Core\Utils\CSVWritter.cs" />
-    <Compile Include="Core\Utils\FileProvider.cs" />
+    <Compile Include="Core\Additions\FontInfo.cs" />
+    <Compile Include="Core\Additions\Offset.cs" />
+    <Compile Include="Core\Additions\OffsetOneSide.cs" />
+    <Compile Include="Core\IO\Output\CSVWritter.cs" />
+    <Compile Include="Core\IO\IO.cs" />
     <Compile Include="Core\Trees\BinaryTrees\BinaryTree.cs" />
     <Compile Include="Core\Trees\BinaryTrees\HaffmanTree.cs" />
     <Compile Include="Core\Trees\VisualNodes\CircleNode.cs" />
-    <Compile Include="Core\Trees\VisualTrees\Additions\AdjustmentFontSize.cs" />
-    <Compile Include="Core\Trees\VisualTrees\Additions\EDrawTreeMode.cs" />
+    <Compile Include="Core\Additions\AdjustmentFontSize.cs" />
+    <Compile Include="App\Enums\EDrawTreeMode.cs" />
     <Compile Include="Core\Trees\VisualTrees\IVisualTree.cs" />
     <Compile Include="Core\Trees\Node.cs" />
     <Compile Include="Core\Translation\Decoder.cs" />
@@ -92,12 +94,12 @@
     <Compile Include="Core\Trees\Tree.cs" />
     <Compile Include="Core\Trees\VisualTrees\TreeWithNodes.cs" />
     <Compile Include="Core\Trees\VisualNodes\IVisualNode.cs" />
-    <Compile Include="Core\Utils\Converter.cs" />
-    <Compile Include="Core\Utils\CustomCSVParser.cs" />
+    <Compile Include="Core\Additions\LastTableColumnCreator.cs" />
+    <Compile Include="Core\IO\Input\CustomCSVParser.cs" />
     <Compile Include="Core\Utils\CustomComparer.cs" />
     <Compile Include="Core\Utils\CustomNodeComparer.cs" />
-    <Compile Include="Core\Utils\IWritter.cs" />
-    <Compile Include="Core\Utils\TXTWritter.cs" />
+    <Compile Include="Core\IO\Output\IWritter.cs" />
+    <Compile Include="Core\IO\Output\TXTWritter.cs" />
     <Compile Include="App\Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +151,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

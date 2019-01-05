@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 namespace BinaryTreeProject.Core.Translation
 {
+    /*                  Класс, оссуществляющий кодирование заданного сообщения                  */
+
     public class Encoder
     {
         public static string Encode(string originalString, Dictionary<char, String> binaryDictionary)
