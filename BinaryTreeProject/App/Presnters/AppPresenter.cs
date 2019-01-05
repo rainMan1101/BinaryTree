@@ -18,7 +18,7 @@ namespace BinaryTreeProject.App.Presnters
         IAppViewExtended view;
 
 
-        //  Экхемпляр модели
+        //  Экземпляр модели
         IAppModel model;
 
 
@@ -145,6 +145,14 @@ namespace BinaryTreeProject.App.Presnters
                                     this.view.DrawWindow.Invalidate();
                                 };
 
+                            //  Переход в полноэкранный режим
+                            this.view.FullScreenModeClick +=
+                            (obj, ex) =>
+                            {
+                                this.view.DrawWindow.Height = model.GetOptimalDrawingPanelHeigth();
+                                this.view.DrawWindow.Width = model.GetOptimalDrawingPanelWidth();
+                                this.view.DrawWindow.Invalidate();
+                            };
 
                             // Вывод результатов и прорисовка дерева
 

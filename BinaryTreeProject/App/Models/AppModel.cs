@@ -150,5 +150,18 @@ namespace BinaryTreeProject.App.Models
         {
             return binTree.GetValueInfo();
         }
+
+
+        public int GetOptimalDrawingPanelHeigth()
+        {
+            return visualTree.GetOptimalHeigth();
+        }
+
+
+        public int GetOptimalDrawingPanelWidth()
+        {
+            return visualTree.GetOptimalWidth();
+        }
+
     }
 }

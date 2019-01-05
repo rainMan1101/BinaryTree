@@ -83,15 +83,8 @@ namespace BinaryTreeProject.Core.Trees
 
                 this.agreement = tree.agreement;
 
-                //// TODO: rewrite this crap
-                //this.rootNode = new Node()
-                //{
-                //    LeftChildNode = tree.rootNode.LeftChildNode, //Старая ссылка остается!!!
-                //    RightChildNode = tree.rootNode.RightChildNode,
-                //    Value = tree.rootNode.Value,
-                //    Probability = tree.rootNode.Probability
-                //};
-                this.rootNode = tree.rootNode;
+                this.rootNode = CopyTree(tree.rootNode);
+                //this.rootNode = tree.rootNode;
 
                 // Init read only arrays
                 Probabilities = new ReadOnlyArray<double>(probabilities);
@@ -99,6 +92,34 @@ namespace BinaryTreeProject.Core.Trees
             }
         }
 
+
+        //  Копирование древовидной структуры
+        private Node CopyTree(Node originalRootNode)
+        {
+            if (originalRootNode.LeftChildNode == null && originalRootNode.RightChildNode == null)
+            {
+                return new Node()
+                {
+                    LeftChildNode = null,
+                    RightChildNode = null,
+                    Value = originalRootNode.Value,
+                    Probability = originalRootNode.Probability
+                };
+            }
+            else
+            {
+                Node LeftChild = CopyTree(originalRootNode.LeftChildNode);
+                Node RightChild = CopyTree(originalRootNode.RightChildNode);
+
+                return new Node()
+                {
+                    LeftChildNode = LeftChild,
+                    RightChildNode = RightChild,
+                    Value = originalRootNode.Value,
+                    Probability = originalRootNode.Probability
+                };
+            }
+        }
 
 
         /*                                    Конструкторы                                  */

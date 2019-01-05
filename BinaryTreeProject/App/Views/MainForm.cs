@@ -110,6 +110,9 @@ namespace BinaryTreeProject.App.Views
 
         public event EventHandler ResultClick;
 
+        public event EventHandler FullScreenModeClick;
+
+
 
         /*                         Параметры                     */
 
@@ -250,17 +253,35 @@ namespace BinaryTreeProject.App.Views
         private void button4_Click(object sender, EventArgs e)
         {
             FullScreenForm fullScreenForm = new FullScreenForm();
-            fullScreenForm.FormClosed += FullScreenFormClosed;
 
-            // Make in visual tree
-            // TODO: Сдеть получение оптимального размера 
-            fullScreenForm.DrawWindow.Width = 2000;
-            fullScreenForm.DrawWindow.Height = 1000;
+            fullScreenForm.FormClosed += FullScreenFormClosed;
+            fullScreenForm.WindowState = FormWindowState.Maximized;
             pictureBox = fullScreenForm.DrawWindow;
             fullScreenForm.Show();
 
+
+            //fullScreenForm.DrawWindow.Width = 2000;
+            //fullScreenForm.DrawWindow.Height = 1000;
+
+
+            // For Redraw window
+            //ResultClick?.Invoke(sender, e);
+            //FullScreenModeClick?.Invoke(sender, e);
+
+
+            //FullScreenForm fullScreenForm = new FullScreenForm();
+            //fullScreenForm.FormClosed += FullScreenFormClosed;
+
+            //// Make in visual tree
+            //// TODO: Сдеть получение оптимального размера 
+            //fullScreenForm.DrawWindow.Width = 2000;
+            //fullScreenForm.DrawWindow.Height = 1000;
+            //pictureBox = fullScreenForm.DrawWindow;
+            //fullScreenForm.Show();
+
             // For Redraw window
             ResultClick?.Invoke(sender, e);
+            FullScreenModeClick?.Invoke(sender, e);
         }
 
 

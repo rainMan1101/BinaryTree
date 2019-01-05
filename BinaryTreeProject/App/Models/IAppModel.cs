@@ -38,5 +38,12 @@ namespace BinaryTreeProject.App.Models
         //  Расшифровывать закодированную стоку и выводить шаги декодирования в файл
         string Decode(string binaryString, string outputString);
 
+
+        //  Оптимальная высота для области рисования в FullScreen окне
+        int GetOptimalDrawingPanelHeigth();
+
+
+        //  Оптимальная ширина для области рисования в FullScreen окне
+        int GetOptimalDrawingPanelWidth();
     }
 }

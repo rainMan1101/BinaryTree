@@ -125,7 +125,7 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
         //  Вывод символа под узлом 
         private void DrawSymbolUnder(float x, float y, char symbol)
         {
-            DrawSymbol(x, y + 1.2f * visualNode.FigureSize, symbol);
+            DrawSymbol(x, y + 1.1f * visualNode.FigureSize, symbol);
         }
 
         #endregion

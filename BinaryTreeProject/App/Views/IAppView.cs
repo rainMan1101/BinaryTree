@@ -42,6 +42,8 @@ namespace BinaryTreeProject.App.Views
         event EventHandler ResultClick;
 
 
+        //  Переход в полноэкранный режим
+        event EventHandler FullScreenModeClick;
 
 
         /*                         Параметры                     */

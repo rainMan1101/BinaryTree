@@ -40,12 +40,10 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
 
 
         //  Отступы слева и справа
-        private const float MARGIN_LEFT_RIGHT = 30;
-
+        private float MARGIN_LEFT_RIGHT;
 
         //  Отступы сверху и снизу
-        private const float MARGIN_TOP_BOTTOM = 30;
-
+        private float MARGIN_TOP_BOTTOM;
 
         //  Дополнительный разделитель между узлами
         protected float SEPARATE_WIDTH = 0;
@@ -63,6 +61,23 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
             defaultPen = Pens.LimeGreen;
         }
 
+
+        //  Получение оптимальной высоты области для прорисовки дерева
+        public int GetOptimalHeigth()
+        {
+            const int optimalNodeBranchHeight = 50;
+            //  Само дерево и еще + расстояние в один узел сверху и снизу
+            return optimalNodeBranchHeight * (GetHeight(rootNode) + 2);
+        }
+
+
+        //  Получение оптимальной ширины области для прорисовки дерева
+        public int GetOptimalWidth()
+        {
+            const int optimalNodeBranchWidth = 50;
+            //  Само дерево и еще + расстояние в один узел слева и справа
+            return optimalNodeBranchWidth * (GetWidth(rootNode) + 2);
+        }
 
 
         #region Virtual methods 
@@ -99,12 +114,15 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
         {
             this.graph = graph;
 
-            
             int countLeft = GetWidth(rootNode.LeftChildNode);
             int countRight = GetWidth(rootNode.RightChildNode);
 
             int countWidth = countLeft + countRight;
             int countHeight = GetHeight(rootNode);
+
+            // Отступ в 1.5 фигуры
+            MARGIN_LEFT_RIGHT = width / (countWidth + 2); 
+            MARGIN_TOP_BOTTOM = heigth / (countHeight + 2);
 
             COEFF_WIDTH = GetCoeffWidth(width, countWidth);
             STEP_HEIGHT = GetStepHeight(heigth, countHeight);
@@ -241,7 +259,7 @@ namespace BinaryTreeProject.Core.Trees.VisualTrees
         {
             float startLeftWidth = countLeft * COEFF_WIDTH;
             startLeftWidth += MARGIN_LEFT_RIGHT;
-            startLeftWidth += (countLeft - 1) * SEPARATE_WIDTH;
+            startLeftWidth += (countLeft - 1) * SEPARATE_WIDTH + SEPARATE_WIDTH / 2;
             return startLeftWidth;
         }
 
