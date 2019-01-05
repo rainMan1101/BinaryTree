@@ -152,6 +152,12 @@ namespace BinaryTreeProject.App.Models
         }
 
 
+        public double GetEntropy()
+        {
+            return binTree.GetEntropy();
+        }
+
+
         public int GetOptimalDrawingPanelHeigth()
         {
             return visualTree.GetOptimalHeigth();

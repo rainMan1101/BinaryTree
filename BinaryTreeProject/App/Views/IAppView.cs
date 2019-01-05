@@ -34,6 +34,10 @@ namespace BinaryTreeProject.App.Views
         string ValueInfo { set; }
 
 
+        //  Значение энтропии
+        string ValueEntropy { set; }
+
+
         //  Область для рисования дерева
         PictureBox DrawWindow { get; }
 

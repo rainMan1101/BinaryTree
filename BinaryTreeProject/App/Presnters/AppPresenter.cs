@@ -158,6 +158,7 @@ namespace BinaryTreeProject.App.Presnters
 
                             model.PrintResult();
                             this.view.ValueInfo = model.GetValueInfo().ToString();
+                            this.view.ValueEntropy = model.GetEntropy().ToString();
                             this.view.DrawWindow.Invalidate();
                         }
                         catch (Exception ex)

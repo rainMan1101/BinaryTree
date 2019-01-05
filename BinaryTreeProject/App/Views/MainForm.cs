@@ -51,8 +51,8 @@ namespace BinaryTreeProject.App.Views
 
             //  По-умолчанию файлы в папке с EXE шником
             textBox1.Text = Environment.CurrentDirectory + "\\text.txt";
-            textBox2.Text = Environment.CurrentDirectory + "\\output.csv";
-            textBox5.Text = Environment.CurrentDirectory + "\\output_decoder.csv";
+            textBox2.Text = Environment.CurrentDirectory + "\\output.txt";
+            textBox5.Text = Environment.CurrentDirectory + "\\output_decoder.txt";
         }
 
 
@@ -105,6 +105,8 @@ namespace BinaryTreeProject.App.Views
         public string OutputFile { get { return textBox2.Text; } }
 
         public string ValueInfo { set { textBox6.Text = value; } }
+
+        public string ValueEntropy { set { textBox8.Text = value; } }
 
         public PictureBox DrawWindow { get { return pictureBox; } }
 
@@ -298,6 +300,20 @@ namespace BinaryTreeProject.App.Views
         {
             textBox1.Text = Environment.CurrentDirectory + "\\input.csv";
         }
+
+
+        private void radioButton11_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox2.Text = Environment.CurrentDirectory + "\\output.txt";
+            textBox5.Text = Environment.CurrentDirectory + "\\output_decoder.txt";
+        }
+
+        private void radioButton12_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox2.Text = Environment.CurrentDirectory + "\\output.csv";
+            textBox5.Text = Environment.CurrentDirectory + "\\output_decoder.csv";
+        }
+
         #endregion
     }
 }

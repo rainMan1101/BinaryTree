@@ -152,5 +152,17 @@ namespace BinaryTreeProject.Core.Trees
         {
             SetTree(tree);
         }
+
+
+        // Расчет энтропии
+        public double GetEntropy()
+        {
+            double summ = 0;
+
+            for (int i = 0; i < probabilities.Length; i++)
+                summ += probabilities[i] * Math.Log(probabilities[i], 2.0);
+
+            return -summ;
+        }
     }
 }

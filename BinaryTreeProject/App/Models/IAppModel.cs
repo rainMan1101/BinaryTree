@@ -31,6 +31,10 @@ namespace BinaryTreeProject.App.Models
         double GetValueInfo();
 
 
+        //  Расчет энтропии
+        double GetEntropy();
+
+
         //  Кодировать исходное сообщение по определенному алгоритму
         string Encode(string originalString);
 
